@@ -8,7 +8,7 @@
 **This is the official repository for "[AudioGenie: A Training-Free Multi-Agent Framework for Diverse Multimodality-to-Multiaudio Generation](https://arxiv.org/pdf/2505.22053)".**
 
 ## 🚀 Roadmap
-- **2025/07**: AudioGenie has been accepted by ACM MM 2025!
+- **2025-07**: AudioGenie has been accepted by ACM MM 2025! We look forward to seeing you in Dublin, Ireland!
 
 
 ## ✨ Abstract
@@ -86,7 +86,7 @@ We use Gemini as the MLLM in this repo. You can swap it for another MLLM (e.g., 
   ```bash
   python AudioGenie/run.py \
     --video <PATH_TO_VIDEO or omit> \
-    --image <PATH_TO_IMAGE or DIR or omit> \
+    --image <PATH_TO_IMAGE or omit> \
     --text  "<YOUR_TEXT or omit>" \
     --outdir <OUTPUT_DIR>
   ```
