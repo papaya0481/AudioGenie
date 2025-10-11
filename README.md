@@ -37,7 +37,63 @@ The dataset will be been released on Hugging Face.
 
 <p align="center"><strong>Statistics of video categories within our MA-Bench.</strong></p>
 
+## 🛠️ Environment Setup
 
+- Create Anaconda Environment:
+  
+  ```bash
+  git clone https://github.com/ryysayhi/AudioGenie.git
+  cd AudioGenie
+  conda create -n AudioGenie python=3.10
+  conda activate AudioGenie
+  pip install -r requirements.txt
+  ```
+- Install ffmpeg:
+  
+  ```bash
+  sudo apt-get install ffmpeg
+  ```
+
+## 📀 Establish Tool Library
+
+- In the `/bin` folder, we provide four examples: [MMAudio](https://github.com/hkchengrex/MMAudio), [CosyVoice](https://github.com/FunAudioLLM/CosyVoice), [InspireMusic](https://github.com/FunAudioLLM/FunMusic), [DiffRhythm](https://github.com/ASLP-lab/DiffRhythm).
+You can clone each project and install it following its own guide. Then set:
+  
+  ```bash
+  export MMAUDIO_HOME=<PATH_TO_MMAUDIO>
+  export COSYVOICE_HOME=<PATH_TO_COSYVOICE>
+  export INSPIREMUSIC_HOME=<PATH_TO_INSPIREMUSIC>
+  export DIFFRHYTHM_HOME=<PATH_TO_DIFFRHYTHM>
+  
+  export MMAUDIO_CONDA=mmaudio
+  export COSYVOICE_CONDA=cosyvoice
+  export INSPIREMUSIC_CONDA=inspiremusic
+  export DIFFRHYTHM_CONDA=diffrhythm
+  ```
+- To extend the library, add your preferred speech / song / music / sound-effect models by defining a `ToolSpec` in `tools.py`, and add a matching `run_model.py` in `/bin`.
+
+## 🎯 Infer
+We use Gemini as the MLLM in this repo. You can swap it for another MLLM (e.g., Qwen2.5-VL, which we used in the paper). 
+- Set your API key for Gemini in run.py (or export it as an env var):
+  ```bash
+  os.environ['GEMINI_API_KEY'] = 'Your_Gemini_Api_Key'
+  # or in shell:
+  # export GEMINI_API_KEY=Your_Gemini_Api_Key
+  ```
+
+
+- Run the inference script:
+  ```bash
+  python AudioGenie/run.py \
+    --video <PATH_TO_VIDEO or omit> \
+    --image <PATH_TO_IMAGE or DIR or omit> \
+    --text  "<YOUR_TEXT or omit>" \
+    --outdir <OUTPUT_DIR>
+  ```
+
+## 📭 Contact
+
+If you have any comments or questions, feel free to contact me (yrong854@connect.hkust-gz.edu.cn).
 
 ## 📚 Citation
 
