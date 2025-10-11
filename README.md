@@ -74,7 +74,7 @@ You can clone each project and install it following its own guide. Then set:
 
 ## 🎯 Infer
 We use Gemini as the MLLM in this repo. You can swap it for another MLLM (e.g., Qwen2.5-VL, which we used in the paper). 
-- Set your API key for Gemini in run.py (or export it as an env var):
+- Set your API key for Gemini in `run.py` (or export it as an env var):
   ```bash
   os.environ['GEMINI_API_KEY'] = 'Your_Gemini_Api_Key'
   # or in shell:
