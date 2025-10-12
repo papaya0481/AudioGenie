@@ -29,7 +29,7 @@ Experiments demonstrate that our AudioGenie achieves state-of-the-art (SOTA) or 
 
 ## 🔮 MA-Bench
 
-The dataset will be released on Hugging Face.
+The dataset will be released on Hugging Face soon.
 
 <p align="center">
   <img src="pic/dataset.png" width="98%"/>
