@@ -2,12 +2,15 @@
 
 [![arXiv](https://img.shields.io/badge/arXiv-2505.22053-brightgreen.svg?style=flat-square)](https://arxiv.org/pdf/2505.22053) 
 [![githubio](https://img.shields.io/badge/GitHub.io-Project-blue?logo=Github&style=flat-square)](https://audiogenie.github.io/)
+[![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-blue)](https://huggingface.co/datasets/ryysayhi/MA-Bench)
+[![github](https://img.shields.io/badge/GitHub-Code-blue?logo=Github&style=flat-square)](https://github.com/ryysayhi/AudioGenie)
 
 ---
 
 **This is the official repository for "[AudioGenie: A Training-Free Multi-Agent Framework for Diverse Multimodality-to-Multiaudio Generation](https://arxiv.org/pdf/2505.22053)".**
 
-## 🚀 Roadmap
+## 🚀 News
+- **2025-10**: MA-Bench has been released!
 - **2025-07**: AudioGenie has been accepted by ACM MM 2025! We look forward to seeing you in Dublin, Ireland!
 
 
@@ -29,7 +32,7 @@ Experiments demonstrate that our AudioGenie achieves state-of-the-art (SOTA) or 
 
 ## 🔮 MA-Bench
 
-The dataset will be released on Hugging Face soon.
+The dataset has been released on [Hugging Face](https://huggingface.co/datasets/ryysayhi/MA-Bench).
 
 <p align="center">
   <img src="pic/dataset.png" width="98%"/>
