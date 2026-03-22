@@ -1,0 +1,34 @@
+# 项目名称与通用配置
+project_name: "MultiLLMProject"
+version: "1.0"
+
+# LLM 核心配置区域
+llms:
+  # 自定义名称 1：用于主要对话的 OpenAI
+  primary_openai:
+    provider: "openai"
+    api_url: "https://api.openai.com/v1"
+    api_key: "sk-xxxxxxxxxxxxxxxxxxxxxxxx" 
+    default_model: "gpt-4-turbo"
+    parameters:
+      temperature: 0.7
+      max_tokens: 2048
+
+  # 自定义名称 2：用于长文本处理的 Gemini
+  google_gemini:
+    provider: "google"
+    api_url: "https://generativelanguage.googleapis.com/v1beta"
+    api_key: "AIzaSyxxxxxxxxxxxxxxxxxxxxxxxx"
+    default_model: "gemini-1.5-pro"
+    parameters:
+      temperature: 0.2
+      max_tokens: 8192
+
+  # 自定义名称 3：本地部署的免费模型
+  local_ollama:
+    provider: "ollama"
+    api_url: "http://localhost:11434/api"
+    api_key: ""  # 本地部署通常不需要 key
+    default_model: "llama3"
+    parameters:
+      temperature: 0.5

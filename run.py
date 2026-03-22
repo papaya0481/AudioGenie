@@ -4,8 +4,7 @@ import os
 import argparse
 import json
 import pathlib
-from google import genai
-from llm import GeminiLLM
+from router import load_llm
 from agents import AudioGenieSystem
 
 
@@ -18,7 +17,7 @@ def main():
     parser.add_argument("--image", default=None)
     parser.add_argument("--video", default="/hpc2hdd/home/yrong854/jhaidata/audio/Tools/data/bird_sea.mp4")
     parser.add_argument("--outdir", default="/hpc2hdd/home/yrong854/jhaidata/Agent/outputs_gemini/bird_sea")
-    parser.add_argument("--llm", default="gemini", choices=["gemini"])
+    parser.add_argument("--llm", default="google_gemini")
     parser.add_argument("--max_depth", type=int, default=3)
     parser.add_argument("--max_siblings", type=int, default=1)
     args = parser.parse_args()
@@ -26,7 +25,7 @@ def main():
     outdir = os.path.abspath(args.outdir or "outputs")
     pathlib.Path(outdir).mkdir(parents=True, exist_ok=True)
 
-    llm = GeminiLLM()
+    llm = load_llm(args.llm)
 
     ctx = {
         "text": args.text,

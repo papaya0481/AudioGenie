@@ -138,3 +138,43 @@ class GeminiLLM(LLM):
         resp = self._client.models.generate_content(model=self.model, contents=content)
         text = getattr(resp, "text", None) or getattr(resp, "output_text", None)
         return text or ""
+
+
+class OpenaiLLM(LLM):
+    def __init__(self, model: str = "gpt-4o", api_key: Optional[str] = None, base_url: Optional[str] = None):
+        self.model = model
+        self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
+        self.base_url = base_url
+        if not self.api_key:
+            raise RuntimeError("OPENAI_API_KEY not set.")
+        self._client = None
+        self._init_client()
+
+    def _init_client(self):
+        try:
+            from openai import OpenAI
+        except Exception as e:
+            raise RuntimeError("openai not installed. pip install openai") from e
+        self._client = OpenAI(api_key=self.api_key, base_url=self.base_url)
+
+    def chat(self, system: str, user: str, stop=None, media: Optional[Dict[str, Any]] = None) -> str:
+        if self._client is None:
+            self._init_client()
+
+        media = media or {}
+        content = []
+
+        for img in media.get("images", []) if isinstance(media.get("images"), list) else ([media.get("images")] if media.get("images") else []):
+            content.append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{self._encode_image(img)}"}})
+
+        content.append({"type": "text", "text": user})
+
+        messages = [{"role": "system", "content": system}, {"role": "user", "content": content}]
+
+        resp = self._client.chat.completions.create(model=self.model, messages=messages, stop=stop)
+        return resp.choices[0].message.content or ""
+
+    def _encode_image(self, path: str) -> str:
+        import base64
+        with open(path, "rb") as f:
+            return base64.b64encode(f.read()).decode("utf-8")

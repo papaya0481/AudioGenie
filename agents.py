@@ -1,14 +1,14 @@
 from typing import Dict, Any, List
 import json, os, pathlib, re
 
-from AudioGenie.llm import LLM
-from AudioGenie.plan import Plan, AudioEvent
-from AudioGenie.experts import build_expert, BaseExpert
-from AudioGenie.tools import ToolLibrary
-from AudioGenie.critiquers import PlanningCritic, DomainCritic, AudioEvalCritic, LLMPlanningReviewer
-from AudioGenie.tot import ToTExecutor
-from AudioGenie.mixer import mix_and_maybe_mux
-from AudioGenie.utils.media import probe_video_seconds
+from llm import LLM
+from plan import Plan, AudioEvent
+from experts import build_expert, BaseExpert
+from tools import ToolLibrary
+from critiquers import PlanningCritic, DomainCritic, AudioEvalCritic, LLMPlanningReviewer
+from tot import ToTExecutor
+from mixer import mix_and_maybe_mux
+from utils.media import probe_video_seconds
 
 
 def _norm_type(t: str) -> str:
