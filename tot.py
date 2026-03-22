@@ -2,11 +2,11 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Dict, Any, Tuple
 import os, uuid, json, copy, shlex, subprocess, re
 
-from AudioGenie.tools import ToolLibrary, run_tool
-from AudioGenie.critiquers import AudioEvalCritic
-from AudioGenie.llm import LLM
-from AudioGenie.tools import _SafeDict
-from AudioGenie.critiquers import AudioEvalCritic
+from tools import ToolLibrary, run_tool
+from critiquers import AudioEvalCritic
+from llm import LLM
+from tools import _SafeDict
+from critiquers import AudioEvalCritic
 
 
 def _safe_float(x, default=0.0) -> float:

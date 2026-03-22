@@ -1,6 +1,6 @@
 import json
 from typing import Dict, Any, Tuple, List, Optional
-from AudioGenie.llm import LLM
+from llm import LLM
 
 class PlanningCritic:
     def review(self, plan: Dict[str, Any]) -> Tuple[Dict[str, Any], List[str]]:

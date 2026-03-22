@@ -4,8 +4,8 @@ import os
 import json
 import re
 
-from AudioGenie.llm import LLM
-from AudioGenie.plan import AudioEvent
+from llm import LLM
+from plan import AudioEvent
 
 
 def _f(x, default=0.0):
