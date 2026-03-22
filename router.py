@@ -1,5 +1,7 @@
 import yaml
-from llm import GeminiLLM, OpenaiLLM
+from llm import (
+    GeminiLLM, OpenaiLLM, NvidiaLLM
+)
 
 
 def load_llm(name: str):
@@ -18,5 +20,7 @@ def load_llm(name: str):
         return OpenaiLLM(model=model, api_key=api_key, base_url=llm_config.get("api_url"))
     elif provider == "google":
         return GeminiLLM(model=model, api_key=api_key)
+    elif provider == "nvidia":
+        return NvidiaLLM(model=model, api_key=api_key, base_url=llm_config.get("api_url"))
     else:
         raise ValueError(f"Unsupported provider: {provider}")

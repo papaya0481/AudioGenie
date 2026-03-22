@@ -78,7 +78,7 @@ class GenerationTeam:
         if video_path:
             try:
                 # get seconds of the video
-                from AudioGenie.utils.media import probe_video_seconds
+                from utils.media import probe_video_seconds
                 video_duration = probe_video_seconds(video_path)  
             except Exception as e:
                 print(f"Error extracting video duration: {e}")

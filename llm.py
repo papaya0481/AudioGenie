@@ -1,6 +1,7 @@
 import os, json, mimetypes
 from typing import Optional, List, Dict, Any
 from pathlib import Path
+import requests, base64
 
 _MAX_INLINE_BYTES = int(os.environ.get("GEMINI_INLINE_LIMIT", str(15 * 1024 * 1024)))
 
@@ -180,15 +181,14 @@ class OpenaiLLM(LLM):
             return base64.b64encode(f.read()).decode("utf-8")
         
 class NvidiaLLM(LLM):
-    def __init__(self, model: str = "microsoft/phi-4-multimodal-instruct", api_key: Optional[str] = None):
+    def __init__(self, model: str = "microsoft/phi-4-multimodal-instruct", api_key: Optional[str] = None, base_url: Optional[str] = None):
         self.model = model
         self.api_key = api_key or os.environ.get("NVIDIA_API_KEY")
-        self.invoke_url = "https://integrate.api.nvidia.com/v1/chat/completions"
+        self.invoke_url = base_url or "https://integrate.api.nvidia.com/v1/chat/completions"
         if not self.api_key:
             raise RuntimeError("NVIDIA_API_KEY not set.")
 
     def chat(self, system: str, user: str, stop=None, media: Optional[Dict[str, Any]] = None) -> str:
-        import requests, base64
 
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -218,5 +218,5 @@ class NvidiaLLM(LLM):
             "stream": False
         }
 
-        resp = requests.post(invoke_url, headers=headers, json=payload)
+        resp = requests.post(self.invoke_url, headers=headers, json=payload)
         return resp.json()["choices"][0]["message"]["content"]
