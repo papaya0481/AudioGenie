@@ -178,3 +178,45 @@ class OpenaiLLM(LLM):
         import base64
         with open(path, "rb") as f:
             return base64.b64encode(f.read()).decode("utf-8")
+        
+class NvidiaLLM(LLM):
+    def __init__(self, model: str = "microsoft/phi-4-multimodal-instruct", api_key: Optional[str] = None):
+        self.model = model
+        self.api_key = api_key or os.environ.get("NVIDIA_API_KEY")
+        self.invoke_url = "https://integrate.api.nvidia.com/v1/chat/completions"
+        if not self.api_key:
+            raise RuntimeError("NVIDIA_API_KEY not set.")
+
+    def chat(self, system: str, user: str, stop=None, media: Optional[Dict[str, Any]] = None) -> str:
+        import requests, base64
+
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Accept": "application/json"
+        }
+
+        content = user
+        media = media or {}
+
+        if media.get("images"):
+            img = media["images"] if isinstance(media["images"], str) else media["images"][0]
+            with open(img, "rb") as f:
+                img_b64 = base64.b64encode(f.read()).decode()
+            content = f'{user} <img src="data:image/png;base64,{img_b64}" />'
+
+        if media.get("audio"):
+            with open(media["audio"], "rb") as f:
+                audio_b64 = base64.b64encode(f.read()).decode()
+            content += f' <audio src="data:audio/wav;base64,{audio_b64}" />'
+
+        payload = {
+            "model": self.model,
+            "messages": [{"role": "user", "content": content}],
+            "max_tokens": 512,
+            "temperature": 0.10,
+            "top_p": 0.70,
+            "stream": False
+        }
+
+        resp = requests.post(invoke_url, headers=headers, json=payload)
+        return resp.json()["choices"][0]["message"]["content"]
