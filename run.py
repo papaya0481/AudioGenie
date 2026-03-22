@@ -5,8 +5,8 @@ import argparse
 import json
 import pathlib
 from google import genai
-from AudioGenie.llm import GeminiLLM
-from AudioGenie.agents import AudioGenieSystem
+from llm import GeminiLLM
+from agents import AudioGenieSystem
 
 
 os.environ['GEMINI_API_KEY'] = 'Your_Gemini_Api_Key'

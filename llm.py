@@ -2,11 +2,6 @@ import os, json, mimetypes
 from typing import Optional, List, Dict, Any
 from pathlib import Path
 
-class LLM:
-    def chat(self, system: str, user: str, stop: Optional[List[str]] = None, **kwargs) -> str:
-        raise NotImplementedError
-
-
 _MAX_INLINE_BYTES = int(os.environ.get("GEMINI_INLINE_LIMIT", str(15 * 1024 * 1024)))
 
 def _mime(path: str) -> str:
@@ -16,6 +11,10 @@ def _mime(path: str) -> str:
 def _read_bytes(path: str) -> bytes:
     with open(path, "rb") as f:
         return f.read()
+
+class LLM:
+    def chat(self, system: str, user: str, stop: Optional[List[str]] = None, **kwargs) -> str:
+        raise NotImplementedError
 
 class GeminiLLM(LLM):
     def __init__(self, model: str = "gemini-2.5-flash", api_key: Optional[str] = None):
