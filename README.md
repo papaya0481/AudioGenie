@@ -110,3 +110,19 @@ If you find our work useful, please consider citing:
   year={2025}
 }
 ```
+
+# Additional Information
+安装cosyvoice时出现setuptool问题 [here](https://github.com/FunAudioLLM/CosyVoice/issues/1844)
+
+修改cuda版本：
+CUDA 11.8
+```cuda 118
+--extra-index-url https://download.pytorch.org/whl/cu118
+--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-11/pypi/simple
+```
+
+CUDA 12.1
+```cuda 121
+--extra-index-url https://download.pytorch.org/whl/cu121
+--extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple
+```
