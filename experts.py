@@ -347,7 +347,6 @@ class SpeechExpert(BaseExpert):
             raise ValueError("Unexpected LLM output format type {} for SpeechExpert: {}".format(type(obj), obj))
 
         out: List[AudioEvent] = []
-        prompt_wav = os.environ.get("COSYVOICE_PROMPT_WAV", "/hpc2hdd/home/yrong854/jhaidata/TTS/CosyVoice/asset/libai.wav")
         for i,e in enumerate(events):
             it = idx_map.get(i, {})
             utter = it.get("utterance") or _extract_quoted(e.object) or _extract_quoted(e.description) or (e.description or e.object or "...")
@@ -360,8 +359,8 @@ class SpeechExpert(BaseExpert):
             if "CosyVoice2" in e.model_candidates:
                 e.refined_inputs["CosyVoice2"] = {
                     "text": utter,
-                    "prompt_transcript": plan_ctx.get("prompt_transcript", "在动画电影长安三万里中，我为李白配音。"),
-                    "prompt_wav": plan_ctx.get("prompt_wav_path", "/hpc2hdd/home/yrong854/jhaidata/TTS/CosyVoice/asset/libai.wav")
+                    "prompt_transcript": plan_ctx.get("prompt_transcript", "希望你以后能够做的比我还好呦。"),
+                    "prompt_wav": plan_ctx.get("prompt_wav_path", "bin/cosyvoice/asset/zero_shot_prompt.wav")
                 }
             if "FireRedTTS" in e.model_candidates:
                 e.refined_inputs["FireRedTTS"] = {
