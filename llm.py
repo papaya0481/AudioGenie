@@ -235,3 +235,61 @@ class NvidiaLLM(LLM):
 
         resp = requests.post(self.invoke_url, headers=headers, json=payload)
         return resp.json()["choices"][0]["message"]["content"]
+    
+
+class HuggingfaceLLM(LLM):
+    def __init__(self, model: str = "Qwen/Qwen3-VL-4B-Instruct", **parameters):
+        try:
+            from transformers import Qwen3VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig
+            import torch
+        except Exception as e:
+            raise RuntimeError("transformers not installed. pip install transformers") from e
+        
+        quantization_config = BitsAndBytesConfig(
+            load_in_8bit=True,
+            # 如果你想进一步压榨显存，可以改成 4-bit：
+            # load_in_4bit=True,
+            # bnb_4bit_compute_dtype=torch.float16
+        )
+
+        self._model = Qwen3VLForConditionalGeneration.from_pretrained(model,
+                                                                      quantization_config=quantization_config,
+                                                                      dtype=torch.bfloat16,
+                                                                      **parameters)
+        self.processor = AutoProcessor.from_pretrained(model)
+
+    def chat(self, system: str, user: str, stop=None, media: Optional[Dict[str, Any]] = None) -> str:
+        media = media or {}
+
+        content = []
+        messages = []
+        if system:
+            content.append({"type": "text", "text": f"{system}"})
+            messages.append({"role": "system", "content": content})
+
+        for img in (media.get("images") or []) if isinstance(media.get("images"), list) else ([media["images"]] if media.get("images") else []):
+            content.append({"type": "image", "image": str(img)})
+
+        for vid in (media.get("videos") or []) if isinstance(media.get("videos"), list) else ([media["videos"]] if media.get("videos") else []):
+            content.append({"type": "video", "video": str(vid)})
+
+        content.append({"type": "text", "text": f"{user}"})
+        messages.append({"role": "user", "content": content})
+
+        inputs = self.processor.apply_chat_template(
+            messages,
+            tokenize=True,
+            add_generation_prompt=True,
+            return_dict=True,
+            return_tensors="pt"
+        )
+        inputs = inputs.to(self._model.device)
+
+        generated_ids = self._model.generate(**inputs, max_new_tokens=512)
+        generated_ids_trimmed = [
+            out_ids[len(in_ids):] for in_ids, out_ids in zip(inputs.input_ids, generated_ids)
+        ]
+        output_text = self.processor.batch_decode(
+            generated_ids_trimmed, skip_special_tokens=True, clean_up_tokenization_spaces=False
+        )
+        return output_text[0] if output_text else ""

@@ -1,6 +1,6 @@
 import yaml
 from llm import (
-    GeminiLLM, OpenaiLLM, NvidiaLLM
+    GeminiLLM, OpenaiLLM, NvidiaLLM, HuggingfaceLLM
 )
 
 
@@ -22,5 +22,7 @@ def load_llm(name: str):
         return GeminiLLM(model=model, api_key=api_key)
     elif provider == "nvidia":
         return NvidiaLLM(model=model, api_key=api_key, base_url=llm_config.get("api_url"))
+    elif provider == "huggingface":
+        return HuggingfaceLLM(model=model, **llm_config.get("parameters", {}))
     else:
         raise ValueError(f"Unsupported provider: {provider}")

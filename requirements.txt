@@ -1,4 +1,3 @@
 moviepy
 pydub
-google-genai
 pyyaml
