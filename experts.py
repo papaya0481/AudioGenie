@@ -341,6 +341,10 @@ class SpeechExpert(BaseExpert):
         elif isinstance(obj, dict) and isinstance(obj.get("items"), list):
             for i,it in enumerate(obj["items"]):
                 idx_map[i] = it
+        elif isinstance(obj, dict) and "index" in obj:
+            idx_map[int(obj.get("index", -1))] = obj
+        else:
+            raise ValueError("Unexpected LLM output format type {} for SpeechExpert: {}".format(type(obj), obj))
 
         out: List[AudioEvent] = []
         prompt_wav = os.environ.get("COSYVOICE_PROMPT_WAV", "/hpc2hdd/home/yrong854/jhaidata/TTS/CosyVoice/asset/libai.wav")

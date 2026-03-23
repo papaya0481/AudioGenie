@@ -1,4 +1,23 @@
 {
   "visual_caption": null,
-  "events": []
+  "events": [
+    {
+      "audio_type": "speech",
+      "start_time": 0.0,
+      "end_time": 13.8,
+      "description": "Voice carries a sense of wistful reminiscence; words: \"你我年少相逢，都有凌云之志。\" (You and I met young, both with lofty ambitions.) — soft, slightly strained intonation, conveying unresolved regret and nostalgia.",
+      "volume_db": -5.0,
+      "object": "Poet (reflective, melancholic tone)",
+      "model_candidates": [
+        "CosyVoice2"
+      ],
+      "refined_inputs": {
+        "CosyVoice2": {
+          "text": "你我年少相逢，都有凌云之志。",
+          "prompt_transcript": "在动画电影长安三万里中，我为李白配音。",
+          "prompt_wav": "/hpc2hdd/home/yrong854/jhaidata/TTS/CosyVoice/asset/libai.wav"
+        }
+      }
+    }
+  ]
 }

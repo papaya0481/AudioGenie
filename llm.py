@@ -263,15 +263,19 @@ class HuggingfaceLLM(LLM):
 
         content = []
         messages = []
-        if system:
-            content.append({"type": "text", "text": f"{system}"})
-            messages.append({"role": "system", "content": content})
+        # if system:
+        #     content.append({"type": "text", "text": f"{system}"})
+        #     messages.append({"role": "system", "content": content})
+        #     content = []
 
         for img in (media.get("images") or []) if isinstance(media.get("images"), list) else ([media["images"]] if media.get("images") else []):
             content.append({"type": "image", "image": str(img)})
 
         for vid in (media.get("videos") or []) if isinstance(media.get("videos"), list) else ([media["videos"]] if media.get("videos") else []):
             content.append({"type": "video", "video": str(vid)})
+            
+        for text in (media.get("texts") or []) if isinstance(media.get("texts"), list) else ([media["texts"]] if media.get("texts") else []):
+            content.append({"type": "text", "text": str(text)})
 
         content.append({"type": "text", "text": f"{user}"})
         messages.append({"role": "user", "content": content})
