@@ -4,16 +4,16 @@
     {
       "audio_type": "speech",
       "start_time": 0.0,
-      "end_time": 10.0,
-      "description": "Melancholic, reflective tone; soft, slightly strained vocal delivery; exact words: \"诗人带着不甘回忆道：你我年少相逢，都有凌云之志。\"",
-      "volume_db": -5.0,
-      "object": "Poet speaking",
+      "end_time": 13.8,
+      "description": "Voice carries emotional weight, slightly raspy with restrained bitterness; recites: \"你我年少相逢，都有凌云之志。\" (You and I met young, both with lofty ambitions.)",
+      "volume_db": 0.0,
+      "object": "Poet (reflective, melancholic tone)",
       "model_candidates": [
         "CosyVoice2"
       ],
       "refined_inputs": {
         "CosyVoice2": {
-          "text": "诗人带着不甘回忆道：你我年少相逢，都有凌云之志。",
+          "text": "你我年少相逢，都有凌云之志。",
           "prompt_transcript": "希望你以后能够做的比我还好呦。",
           "prompt_wav": "bin/cosyvoice/asset/zero_shot_prompt.wav"
         }

@@ -5,6 +5,7 @@ import os
 import shlex
 import subprocess
 import logging
+import shutil
 
 log = logging.getLogger(__name__)
 
@@ -29,28 +30,28 @@ class ToolLibrary:
         self.tools: Dict[str, ToolSpec] = {
             "MMAudio": ToolSpec(
                 name="MMAudio", task="sfx",
-                command=("bash -lc 'source ~/.bashrc; conda activate {conda_env}; "
+                command=("{conda_exec} run -n {conda_env} "
                          "python {bin_dir}/run_mmaudio.py --variant {variant} {video_arg} --prompt \"{text}\" "
                          "--duration {seconds} --cfg_strength {cfg_strength} --num_steps {num_steps} "
-                         "--output_dir \"{output_dir}\" --seed {seed} --out \"{output}\"'"),
+                         "--output_dir \"{output_dir}\" --seed {seed} --out \"{output}\""),
                 inputs=["text", "seconds", "seed", "num_steps", "cfg_strength", "variant", "output_dir", "video_arg"],
                 conda_env=os.environ.get("MMAUDIO_CONDA", "mmaudio"),
                 notes="Video/Text-to-SFX via MMAudio."
             ),
             "CosyVoice2": ToolSpec(
                 name="CosyVoice2", task="tts",
-                command=("bash -lc 'source ~/.bashrc; conda activate {conda_env}; "
+                command=("{conda_exec} run -n {conda_env} "
                          "python {bin_dir}/run_cosyvoice2.py --target_text \"{text}\" "
-                         "--prompt_transcript \"{prompt_transcript}\" --prompt_wav \"{prompt_wav}\" --out \"{output}\"'"),
+                         "--prompt_transcript \"{prompt_transcript}\" --prompt_wav \"{prompt_wav}\" --out \"{output}\""),
                 inputs=["target_text", "prompt_transcript", "prompt_wav"],
                 conda_env=os.environ.get("COSYVOICE_CONDA", "cosyvoice"),
                 notes="CosyVoice2 zero-shot."
             ),
             "InspireMusic": ToolSpec(
                 name="InspireMusic", task="music",
-                command=("bash -lc 'source ~/.bashrc; conda activate {conda_env}; "
+                command=("{conda_exec} run -n {conda_env} "
                          "python {bin_dir}/run_inspiremusic.py --text \"{text}\" "
-                         "--seconds {seconds} --chorus {chorus} --out \"{output}\"'"),
+                         "--seconds {seconds} --chorus {chorus} --out \"{output}\""),
                 inputs=["text", "seconds", "chorus"],
                 conda_env=os.environ.get("INSPIREMUSIC_CONDA", "inspiremusic"),
                 notes="Text-to-music via InspireMusic."
@@ -58,7 +59,7 @@ class ToolLibrary:
             "DiffRhythm": ToolSpec(
                 name="DiffRhythm", task="song_gen",
                 command=(
-                    "bash -lc 'source ~/.bashrc; conda activate {conda_env}; "
+                    "{conda_exec} run -n {conda_env} "
                     "python {bin_dir}/run_diffrhythm.py "
                     "--lrc_path \"{lrc_path}\" "
                     "--ref_audio_path \"{ref_audio_path}\" "
@@ -66,7 +67,7 @@ class ToolLibrary:
                     "--real_seconds {seconds} "
                     "--out \"{output}\" "
                     "--batch_infer_num {batch_infer_num} "
-                    "--chunked'"
+                    "--chunked"
                 ),
                 inputs=["lrc_path", "ref_audio_path", "ref_prompt", "real_seconds", "batch_infer_num"],
                 conda_env=os.environ.get("DIFFRHYTHM_CONDA", "diffrhythm"),
@@ -88,6 +89,10 @@ def run_tool(tool: ToolSpec, args: Dict[str, Any], output_wav: Optional[str] = N
     bin_dir_default = os.path.join(os.path.dirname(__file__), "bin")
     args.setdefault("bin_dir", bin_dir_default)
     args.setdefault("conda_env", tool.conda_env or "")
+    conda_exec = os.environ.get("CONDA_EXE") or shutil.which("conda")
+    if not conda_exec:
+        raise RuntimeError("Conda executable not found. Please ensure Conda is installed and CONDA_EXE environment variable is set if conda is not in PATH.")
+    args.setdefault("conda_exec", conda_exec or "conda")
     if output_wav:
         args.setdefault("output", output_wav)
         if ("output_dir" in getattr(tool, "inputs", [])) or ("{output_dir}" in tool.command):
