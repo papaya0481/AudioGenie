@@ -192,30 +192,45 @@ class NvidiaLLM(LLM):
 
         headers = {
             "Authorization": f"Bearer {self.api_key}",
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "Content-Type": "application/json"
         }
 
-        content = user
+        content = [{"type": "text", "text": user}]
         media = media or {}
 
+        if media.get("texts"):
+            texts = media["texts"] if isinstance(media["texts"], list) else [media["texts"]]
+            for text in texts:
+                content.append({"type": "text", "text": text})
+
         if media.get("images"):
-            img = media["images"] if isinstance(media["images"], str) else media["images"][0]
-            with open(img, "rb") as f:
-                img_b64 = base64.b64encode(f.read()).decode()
-            content = f'{user} <img src="data:image/png;base64,{img_b64}" />'
+            imgs = media["images"] if isinstance(media["images"], list) else [media["images"]]
+            for img in imgs:
+                with open(img, "rb") as f:
+                    img_b64 = base64.b64encode(f.read()).decode()
+                content.append({"type": "image_url", "image_url": {"url": f"data:image/png;base64,{img_b64}"}})
+
+        if media.get("videos"):
+            vids = media["videos"] if isinstance(media["videos"], list) else [media["videos"]]
+            for vid in vids:
+                content.append({"type": "video_url", "video_url": {"url": vid}})
 
         if media.get("audio"):
-            with open(media["audio"], "rb") as f:
-                audio_b64 = base64.b64encode(f.read()).decode()
-            content += f' <audio src="data:audio/wav;base64,{audio_b64}" />'
+            audios = media["audio"] if isinstance(media["audio"], list) else [media["audio"]]
+            for audio in audios:
+                with open(audio, "rb") as f:
+                    audio_b64 = base64.b64encode(f.read()).decode()
+                content.append({"type": "audio_url", "audio_url": {"url": f"data:audio/wav;base64,{audio_b64}"}})
 
         payload = {
             "model": self.model,
             "messages": [{"role": "user", "content": content}],
             "max_tokens": 512,
-            "temperature": 0.10,
-            "top_p": 0.70,
-            "stream": False
+            "temperature": 0.3,
+            "top_p": 0.3,
+            "repetition_penalty": 1.2,
+            "reasoning": "false"
         }
 
         resp = requests.post(self.invoke_url, headers=headers, json=payload)

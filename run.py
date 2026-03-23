@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description="AudioGenie (training-free multi-agent)")
     parser.add_argument("--text", default=None)
     parser.add_argument("--image", default=None)
-    parser.add_argument("--video", default="/hpc2hdd/home/yrong854/jhaidata/audio/Tools/data/bird_sea.mp4")
+    parser.add_argument("--video", default=None, help="Path to .mp4 video file.")
     parser.add_argument("--outdir", default="/hpc2hdd/home/yrong854/jhaidata/Agent/outputs_gemini/bird_sea")
     parser.add_argument("--llm", default="google_gemini")
     parser.add_argument("--max_depth", type=int, default=3)

@@ -1,0 +1,65 @@
+{
+  "visual_caption": null,
+  "events": [
+    {
+      "audio_type": "music",
+      "start_time": 0.0,
+      "end_time": 2.5,
+      "description": "Soft, ambient instrumental music with a gentle melody, creating a calm and welcoming atmosphere.",
+      "volume_db": -12.0,
+      "object": "Background Music",
+      "model_candidates": [],
+      "refined_inputs": {}
+    },
+    {
+      "audio_type": "speech",
+      "start_time": 2.5,
+      "end_time": 8.0,
+      "description": "Bright timbre, soft onset, rising-falling contour, full of surprise and delight; exact words: \"Woa! It is so beautiful!\"",
+      "volume_db": 0.0,
+      "object": "Character 1 (young girl's voice) says, \"Woa! It is so beautiful!\"",
+      "model_candidates": [],
+      "refined_inputs": {}
+    },
+    {
+      "audio_type": "sound_effect",
+      "start_time": 8.0,
+      "end_time": 12.0,
+      "description": "Footsteps in the forest, light gravel crunch, moderate pace.",
+      "volume_db": -2.0,
+      "object": "Footstep",
+      "model_candidates": [],
+      "refined_inputs": {}
+    },
+    {
+      "audio_type": "music",
+      "start_time": 12.0,
+      "end_time": 15.0,
+      "description": "Upbeat, cheerful song with a catchy melody, lyrics about adventure and friendship.",
+      "volume_db": -8.0,
+      "object": "Character 2 (boy's voice) sings",
+      "model_candidates": [],
+      "refined_inputs": {}
+    },
+    {
+      "audio_type": "sound_effect",
+      "start_time": 15.0,
+      "end_time": 18.0,
+      "description": "Natural bird sounds, chirping in the morning, creating a serene and peaceful ambiance.",
+      "volume_db": -6.0,
+      "object": "Birds chirping",
+      "model_candidates": [],
+      "refined_inputs": {}
+    },
+    {
+      "audio_type": "music",
+      "start_time": 18.0,
+      "end_time": 20.0,
+      "description": "Soft, instrumental music with a slow tempo, evoking a sense of tranquility and reflection.",
+      "volume_db": -10.0,
+      "object": "Background Music",
+      "model_candidates": [],
+      "refined_inputs": {}
+    }
+  ]
+}
